@@ -69,7 +69,7 @@
                   </div>
 
                   <button type="submit" class="btn btn-primary">Update</button>
-                  <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                  <a href="{{ route('kaprodi.dashboard') }}" class="btn btn-secondary">Cancel</a>
               </form>
 
               </div>

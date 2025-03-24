@@ -25,20 +25,22 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('nama_prodi');
             $table->timestamps();
-        });
+        }); 
 
         // 3. Buat Tabel Ketua Prodi
         Schema::create('ketua_prodi_profiles', function (Blueprint $table) {
             $table->string('nik', 20)->primary();
+            $table->string('nama_dosen'); // Tambahan
+            $table->string('nama_prodi'); // Tambahan
             $table->date('tanggal_lahir');
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedBigInteger('prodi_id')->nullable();
             $table->foreign('prodi_id')->references('id')->on('prodi')->onDelete('set null');
-            $table->foreign('nik')->references('nik')->on('dosen_profiles')->onDelete('cascade'); 
+            $table->foreign('nik')->references('nik')->on('dosen_profiles')->onDelete('cascade');
             $table->timestamps();
         });
-
+        
      
 
         // 5. Buat Tabel Tata Usaha

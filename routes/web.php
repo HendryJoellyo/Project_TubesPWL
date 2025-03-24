@@ -13,9 +13,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('tata_usaha.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,17 +27,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-// CRUD Ketua Prodi
-Route::get('/dashboard', [KetuaProdiProfileController::class, 'index'])->name('dashboard');
-Route::get('/create', [KetuaProdiProfileController::class, 'create'])->name('create');
-Route::post('/kaprodi/store', [KetuaProdiProfileController::class, 'store'])->name('store');
-
-
-Route::get('/kaprodi/edit/{nik}', [KetuaProdiProfileController::class, 'edit'])->name('edit');
-Route::put('/kaprodi/{nik}', [KetuaProdiProfileController::class, 'update'])->name('kaprodi.update');
-
-Route::delete('/kaprodi/delete/{nik}', [KetuaProdiProfileController::class, 'destroy'])->name('delete');
-Route::get('/kaprodi/create', [KetuaProdiProfileController::class, 'create'])->name('kaprodi.create');
+Route::prefix('kaprodi')->name('kaprodi.')->group(function () {
+    Route::get('/', [KetuaProdiProfileController::class, 'index'])->name('dashboard');
+    Route::get('/create', [KetuaProdiProfileController::class, 'create'])->name('create');
+    Route::post('/store', [KetuaProdiProfileController::class, 'store'])->name('store');
+    Route::get('/edit/{nik}', [KetuaProdiProfileController::class, 'edit'])->name('edit');
+    Route::put('/{nik}', [KetuaProdiProfileController::class, 'update'])->name('update');
+    Route::delete('/delete/{nik}', [KetuaProdiProfileController::class, 'destroy'])->name('destroy');
+});
 
 // CRUD Prodi
 Route::get('/prodi', [ProdiController::class, 'index'])->name('prodi.index');
@@ -48,7 +43,6 @@ Route::post('/prodi', [ProdiController::class, 'store'])->name('prodi.store');
 Route::get('/prodi/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
 Route::put('/prodi/{id}', [ProdiController::class, 'update'])->name('prodi.update');
 Route::delete('/prodi/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
-
 
 // CRUD Dosen
 Route::get('/dosen', [DosenProfileController::class, 'index'])->name('dosen.index');

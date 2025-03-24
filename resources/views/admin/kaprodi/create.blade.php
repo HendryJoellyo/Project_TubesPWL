@@ -38,27 +38,36 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-body">
-              <form action="{{ route('store') }}" method="POST">
+              @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+  @endif
+              <form action="{{ route('kaprodi.store') }}" method="POST">
     @csrf
     <div class="form-group">
-        <label for="dosen_nik">Nama Dosen</label>
-        <select name="dosen_nik" class="form-control" required>
-            <option value="">-- Pilih Dosen --</option>
-            @foreach($dosens as $dosen)
-                <option value="{{ $dosen->nik }}">{{ $dosen->name }}</option>
-            @endforeach
-        </select>
-    </div>
+    <label for="dosen_nik">Nama Dosen</label>
+    <select name="dosen_nik" id="dosen_nik" class="form-control" required>
+        <option value="">-- Pilih Dosen --</option>
+        @foreach($dosens as $dosen)
+            <option value="{{ $dosen->nik }}">{{ $dosen->name }}</option>
+        @endforeach
+    </select>
+</div>
 
-    <div class="form-group">
-        <label for="prodi_id">Nama Prodi</label>
-        <select name="prodi_id" class="form-control" required>
-            <option value="">-- Pilih Prodi --</option>
-            @foreach($prodis as $prodi)
-                <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}</option>
-            @endforeach
-        </select>
-    </div>
+<div class="form-group">
+    <label for="prodi_id">Nama Prodi</label>
+    <select name="prodi_id" id="prodi_id" class="form-control" required>
+        <option value="">-- Pilih Prodi --</option>
+        @foreach($prodis as $prodi)
+            <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}</option>
+        @endforeach
+    </select>
+</div>
 
     <button type="submit" class="btn btn-primary">Simpan</button>
 </form>
