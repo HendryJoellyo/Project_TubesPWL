@@ -12,13 +12,18 @@ class KetuaProdiProfile extends Model
     protected $table = 'ketua_prodi_profiles';
     protected $primaryKey = 'nik';
     public $incrementing = false; // Karena nik adalah string dan primary key
-    protected $fillable = ['nik', 'name', 'email', 'tanggal_lahir', 'prodi_id', 'password'];
+    protected $fillable = ['nik', 'name', 'email', 'tanggal_lahir', 'password', 'prodi_id', 'dosen_nik'];
 
+    
 
-
-    public function prodi()
+public function prodi()
 {
     return $this->belongsTo(Prodi::class, 'prodi_id');
+}
+
+public function dosen()
+{
+    return $this->belongsTo(DosenProfile::class, 'dosen_nik', 'nik');
 }
 
 

@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ManagerProfile;
 use Illuminate\Http\Request;
 use App\Models\KetuaProdiProfile;
 use App\Models\Prodi;
 use App\Models\DosenProfile;
 
 
-class KetuaProdiProfileController extends Controller
+class ManagerProfileController extends Controller
 {
     public function index()
     {
-        $profiles = KetuaProdiProfile::with('prodi')->get();
-        return view('admin.kaprodi.dashboard', compact('profiles'));
+        $Managers = ManagerProfile::with('prodi')->get();
+        return view('admin.manager.index', compact('Managers'));
     }
 
     public function create()
 {
-    $dosens = DosenProfile::all(); // Ambil semua data dosen
-    $prodis = Prodi::all(); // Ambil semua data prodi
-    return view('admin.kaprodi.create', compact('dosens', 'prodis'));
+    $Managers = ManagerProfile::all(); // Ambil semua data dosen
+    return view('admin.manager.create', compact('Managers'));
 }
 
 
@@ -28,35 +28,30 @@ public function store(Request $request)
 {
     $request->validate([
         'nik' => 'required|unique:ketua_prodi_profiles',
-
         'name' => 'required',
         'email' => 'required|email',
         'tanggal_lahir' => 'required|date',
         'password' => 'required',
-        'dosen_nik' =>'required',
-        'prodi_id' => 'required',
     ]);
 
-    KetuaProdiProfile::create([
+    ManagerProfile::create([
         'nik' => $request->nik,
         'name' => $request->name,
         'email' => $request->email,
         'tanggal_lahir' => $request->tanggal_lahir,
         'password' => bcrypt($request->password),
-        'prodi_id' => $request->id,
-        'dosen_nik' => $request->dosen_nik,
     ]);
 
-    return redirect()->route('kaprodi.index')->with('success', 'Kaprodi berhasil ditambahkan!');
+    return redirect()->route('manager.index')->with('success', 'Manager berhasil ditambahkan!');
 }
 
 
     public function edit($nik)
 {
-    $kaprodi = KetuaProdiProfile::where('nik', $nik)->firstOrFail();
-    $prodis = Prodi::all(); // Ambil semua data prodi
+    $Manager = ManagerProfile::where('nik', $nik)->firstOrFail();
+  
 
-    return view('admin.kaprodi.edit', compact('kaprodi', 'prodis'));
+    return view('admin.manager.edit', compact('Manager'));
 }
 
 
@@ -70,21 +65,20 @@ public function update(Request $request, $nik)
     ]);
 
     // Cek apakah data ditemukan
-    $kaprodi = KetuaProdiProfile::where('nik', $nik)->first();
-    if (!$kaprodi) {
+    $Manager = ManagerProfile::where('nik', $nik)->first();
+    if (!$Manager) {
         return back()->with('error', 'Data tidak ditemukan!');
     }
 
     // Perbarui data
-    $kaprodi->update([
+    $Manager->update([
         'name' => $request->name,
         'email' => $request->email,
         'tanggal_lahir' => $request->tanggal_lahir,
-        'prodi_id' => $request->prodi_id, // Pastikan ini ada
     ]);
     
 
-    return redirect()->route('dashboard')->with('success', 'Data berhasil diperbarui');
+    return redirect()->route('manager.index')->with('success', 'Data berhasil diperbarui');
 }
 
 
@@ -92,10 +86,10 @@ public function update(Request $request, $nik)
 
     public function destroy($nik)
     {
-        $kaprodi = KetuaProdiProfile::where('nik', $nik)->firstOrFail();
-        $kaprodi->delete();
+        $Manager = ManagerProfile::where('nik', $nik)->firstOrFail();
+        $Manager->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Data Kaprodi berhasil dihapus!');
+        return redirect()->route('manager.index')->with('success', 'Data Tata Usaha berhasil dihapus!');
     }
 
 

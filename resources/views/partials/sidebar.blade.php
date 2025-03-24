@@ -13,7 +13,7 @@
           <img src="{{asset('Gambar/user.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Tata Usaha</a>
+          <a href="#" class="d-block">Admin</a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -22,12 +22,25 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item menu-open">
-    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-        <p>Data Kaprodi</p>
+      <a href="{{ route('prodi.index') }}" class="nav-link {{ request()->routeIs('prodi.index') ? 'active' : '' }}">
+      <p>Data Prodi</p>
     </a>
-    <a href="{{ route('prodi.index') }}" class="nav-link {{ request()->routeIs('prodi.index') ? 'active' : '' }}">
-    <p>Data Prodi</p>
-</a>
+    <a href="{{ route('dosen.index') }}" class="nav-link {{ request()->routeIs('dosen.index') ? 'active' : '' }}">
+      <p>Data Dosen</p>
+    </a>
+    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+      <p>Data Kaprodi</p>
+    </a>
+    
+    <a href="{{ route('tata_usaha.index') }}" class="nav-link {{ request()->routeIs('tata_usaha.index') ? 'active' : '' }}">
+      <p>Data Tata Usaha</p>
+    </a>
+    <a href="{{ route('manager.index') }}" class="nav-link {{ request()->routeIs('manager.index') ? 'active' : '' }}">
+      <p>Data Manager Operasional</p>
+    </a>
+    <!-- <a href="{{ route('prodi.index') }}" class="nav-link {{ request()->routeIs('prodi.index') ? 'active' : '' }}">
+      <p>Data Tata Usaha</p>
+    </a> -->
 
 </li>
 

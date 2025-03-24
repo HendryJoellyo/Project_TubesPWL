@@ -39,17 +39,7 @@
                     <input type="text" name="nama_prodi" class="form-control" value="{{ $prodi->nama_prodi }}" required>
                   </div>
 
-                  <div class="form-group">
-                    <label for="ketua_prodi_nik">Ketua Prodi</label>
-                    <select name="ketua_prodi_nik" class="form-control">
-                        <option value="">-- Pilih Ketua Prodi --</option>
-                        @foreach ($ketua_prodis as $kaprodi)
-                            <option value="{{ $kaprodi->nik }}" {{ $prodi->ketua_prodi_nik == $kaprodi->nik ? 'selected' : '' }}>
-                                {{ $kaprodi->name }} ({{ $kaprodi->nik }})
-                            </option>
-                        @endforeach
-                    </select>
-                  </div>
+                 
 
                   <button type="submit" class="btn btn-primary">Update</button>
                   <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancel</a>

@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create New kaprodi</title>
+  <title>Edit Data tata Usaha</title>
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -16,6 +17,8 @@
 
   <!-- Navbar -->
   @include('partials.navbar')
+  <!-- /.navbar -->
+
   <!-- Main Sidebar Container -->
   @include('partials.sidebar')
 
@@ -25,7 +28,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Create New Kaprodi</h1>
+            <h1 class="m-0">Edit Data Tata Usaha</h1>
           </div>
         </div>
       </div>
@@ -37,48 +40,36 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Form Edit TataUsaha</h3>
+              </div>
               <div class="card-body">
-                <form action="{{ route('store') }}" method="POST">
+                <form action="{{ route('tata_usaha.update', $TataUsaha->nik) }}" method="POST">
                   @csrf
+                  @method('PUT')
+
                   <div class="form-group">
-                    <label for="name">NIK</label>
-                    <input type="text" name="nik" class="form-control" required>
+                    <label for="nik">NIK</label>
+                    <input type="text" name="nik" class="form-control" value="{{ $TataUsaha->nik }}" readonly>
                   </div>
+                  
                   <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <label for="name">Nama</label>
+                    <input type="text" name="name" class="form-control" value="{{ $TataUsaha->name }}" required>
                   </div>
-                  <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control" required>
-                  </div>
+
                   <div class="form-group">
                     <label for="tanggal_lahir">Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" class="form-control" required>
+                    <input type="date" name="tanggal_lahir" class="form-control" value="{{ $TataUsaha->tanggal_lahir }}" required>
                   </div>
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" name="password" class="form-control" required>
-                  </div>
-                  <!-- <div class="form-group">
-                    <label for="nama_prodi">Nama Prodi</label>
-                    <select name="prodi_id" class="form-control" required>
-                        @foreach($prodis as $prodi)
-                            <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}</option>
-                        @endforeach
-                    </select>
-                </div> -->
-                <div class="form-group">
-                      <label for="prodi_id">Nama Prodi</label>
-                      <select name="prodi_id" class="form-control" required>
-                      <option value="">-- Pilih Prodi --</option>
-                      @foreach($prodis as $prodi)
-                            <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}</option>
-                        @endforeach
-                  </select>
 
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ $TataUsaha->email }}" required>
                   </div>
-                  <button type="submit" class="btn btn-success">Save</button>
+
+                  <button type="submit" class="btn btn-primary">Update</button>
+                  <a href="{{ route('dosen.index') }}" class="btn btn-secondary">Cancel</a>
                 </form>
               </div>
             </div>
@@ -88,6 +79,7 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <footer class="main-footer">
     @include('partials.footer')
   </footer>

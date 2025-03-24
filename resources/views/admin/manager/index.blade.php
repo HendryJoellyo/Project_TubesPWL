@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create New Prodi</title>
+  <title>Dashboard Manager</title>
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -16,6 +17,8 @@
 
   <!-- Navbar -->
   @include('partials.navbar')
+  <!-- /.navbar -->
+
   <!-- Main Sidebar Container -->
   @include('partials.sidebar')
 
@@ -25,7 +28,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Create New Prodi</h1>
+            <h1 class="m-0">Data Manager</h1>
           </div>
         </div>
       </div>
@@ -37,25 +40,49 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <div class="card-body">
-                <form action="{{ route('prodi.store') }}" method="POST">
-                  @csrf
-                  <div class="form-group">
-                    <label for="nama_prodi">Nama Prodi</label>
-                    <input type="text" name="nama_prodi" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                  <label for="ketua_prodi_nik">Ketua Prodi</label>
-<select name="ketua_prodi_nik" class="form-control">
-    <option value="">-- Pilih Ketua Prodi --</option>
-    @foreach ($ketua_prodis as $kaprodi)
-        <option value="{{ $kaprodi->nik }}">{{ $kaprodi->name }}</option>
-    @endforeach
-</select>
+              <div class="card-header">
+                <h3 class="card-title">Data List Manager</h3>
+             
+                <a href="{{ route('manager.create') }}" class="btn btn-primary float-right">Add New</a>
 
-                  </div>
-                  <button type="submit" class="btn btn-success">Save</button>
-                </form>
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>NIK</th>
+                      <th>Nama</th>
+                      <th>Tanggal Lahir</th>
+                      <th>Email</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($Managers as $Manager)
+                    <tr>
+                      <td>{{ $Manager->nik }}</td>
+                      <td>{{ $Manager->name }}</td>
+                      <td>{{ $Manager->tanggal_lahir }}</td>
+                      <td>{{ $Manager->email }}</td>
+                    
+                      <td>
+                      <a class="btn btn-warning btn-sm" href="{{ route('manager.edit', $Manager->nik) }}">Edit</a>
+
+
+
+
+
+
+                      <form action="{{ route('manager.destroy', $Manager->nik) }}" method="POST" class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Delete</button>
+                        </form>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

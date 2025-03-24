@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard Prodi</title>
+  <title>Kaprodi Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -28,7 +28,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Data Prodi</h1>
+            <h1 class="m-0">Data Kaprodi</h1>
           </div>
         </div>
       </div>
@@ -42,31 +42,31 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Data List</h3>
-             
-                <a href="{{ route('prodi.create') }}" class="btn btn-primary float-right">Add New</a>
-
+                <a href="{{ route('kaprodi.create') }}" class="btn btn-primary float-right">Add New</a>
               </div>
               <div class="card-body">
                 <table class="table table-bordered">
                   <thead>
-                    <tr>
-                      <th>ID</th>
+                    <tr> 
+                      <th>NIK</th>
+                      <th>Name</th>
+                      <th>Email</th>
                       <th>Nama Prodi</th>
-                      <th>NIK Ketua Prodi</th>
-                      <th>Nama Ketua Prodi</th>
+                      <th>Tanggal Lahir</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($prodis as $prodi)
+                    @foreach($profiles as $profile)
                     <tr>
-                      <td>{{ $prodi->id }}</td>
-                      <td>{{ $prodi->nama_prodi }}</td>
-                      <td>{{ $prodi->ketua_prodi_nik ?? 'Belum ada NIK' }}</td>
-                      <td>{{ optional($prodi->ketuaProdiProfile)->name ??  'Belum ada Kaprodi' }}</td>
+                      <td>{{ $profile->nik }}</td>
+                      <td>{{ $profile->name }}</td>
+                      <td>{{ $profile->email }}</td>
+                      <td>{{ $profile->prodi->name ?? 'N/A' }}</td>
+                      <td>{{ $profile->tanggal_lahir }}</td>
                       <td>
-                        <a href="{{ route('prodi.edit', $prodi->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('prodi.destroy', $prodi->id) }}" method="POST" class="d-inline">
+                        <a href="{{ route('edit', $profile->nik) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('delete', $profile->nik) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Delete</button>
@@ -87,6 +87,34 @@
   <footer class="main-footer">
     @include('partials.footer')
   </footer>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Data</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Name:</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- jQuery -->

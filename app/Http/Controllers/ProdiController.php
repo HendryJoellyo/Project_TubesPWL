@@ -9,25 +9,25 @@ class ProdiController extends Controller
     public function index()
     {
         $prodis = Prodi::with('ketuaProdiProfile')->get();
-        return view('tata_usaha.prodi.index', compact('prodis'));
+        return view('admin.prodi.index', compact('prodis'));
     }
 
     public function create()
 {
     $ketua_prodis = KetuaProdiProfile::all();
-    return view('tata_usaha.prodi.create_prodi', compact('ketua_prodis'));
+    return view('admin.prodi.create_prodi', compact('ketua_prodis'));
 }
 
 public function store(Request $request)
 {
     $request->validate([
         'nama_prodi' => 'required',
-        'ketua_prodi_nik' => 'nullable|exists:ketua_prodi_profiles,nik',
+        
     ]);
 
     Prodi::create([
         'nama_prodi' => $request->nama_prodi,
-        'ketua_prodi_nik' => $request->ketua_prodi_nik
+
     ]);
 
     return redirect()->route('prodi.index')->with('success', 'Data berhasil ditambahkan');
@@ -37,15 +37,15 @@ public function store(Request $request)
 public function edit($id)
 {
     $prodi = Prodi::findOrFail($id);
-    $ketua_prodis = KetuaProdiProfile::all();
-    return view('tata_usaha.prodi.edit_prodi', compact('prodi', 'ketua_prodis'));
+  
+    return view('admin.prodi.edit_prodi', compact('prodi', 'ketua_prodis'));
 }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_prodi' => 'required',
-            'ketua_prodi_nik' => 'required',
+  
         ]);
 
         $prodi = Prodi::findOrFail($id);
