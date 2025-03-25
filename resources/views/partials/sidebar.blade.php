@@ -38,6 +38,10 @@
     <a href="{{ route('manager.index') }}" class="nav-link {{ request()->routeIs('manager.index') ? 'active' : '' }}">
       <p>Data Manager Operasional</p>
     </a>
+    <a href="{{ route('mahasiswa.index') }}" class="nav-link {{ request()->routeIs('mahasiswa.index') ? 'active' : '' }}">
+      <p>Data Mahasiswa</p>
+  </a>
+  
     <!-- <a href="{{ route('prodi.index') }}" class="nav-link {{ request()->routeIs('prodi.index') ? 'active' : '' }}">
       <p>Data Tata Usaha</p>
     </a> -->

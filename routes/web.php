@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenProfileController;
 use App\Http\Controllers\TataUsahaProfileController;
 use App\Http\Controllers\ManagerProfileController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,5 +72,23 @@ Route::post('/ManagerOperasional/create', [ManagerProfileController::class, 'sto
 Route::get('/ManagerOperasional/{nik}/edit', [ManagerProfileController::class, 'edit'])->name('manager.edit');
 Route::put('/ManagerOperasional/{nik}', [ManagerProfileController::class, 'update'])->name('manager.update');
 Route::delete('/ManagerOperasional/{nik}', [ManagerProfileController::class, 'destroy'])->name('manager.destroy');
+
+
+// CRUD Mahasiswa
+Route::get('/Mahasiswa', [MahasiswaProfileController::class, 'index'])->name('mahasiswa.index');
+Route::get('/Mahasiswa/create', [MahasiswaProfileController::class, 'create'])->name('mahasiswa.create');
+Route::post('/Mahasiswa/create', [MahasiswaProfileController::class, 'store'])->name('mahasiswa.store');
+Route::get('/Mahasiswa/{nrp}/edit', [MahasiswaProfileController::class, 'edit'])->name('mahasiswa.edit');
+Route::put('/Mahasiswa/{nrp}', [MahasiswaProfileController::class, 'update'])->name('mahasiswa.update');
+Route::delete('/Mahasiswa/{nrp}', [MahasiswaProfileController::class, 'destroy'])->name('mahasiswa.destroy');
+
+
+use App\Http\Controllers\SuratController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('surat', SuratController::class)->except(['edit', 'update']);
+});
+
+
 
 require __DIR__.'/auth.php';
