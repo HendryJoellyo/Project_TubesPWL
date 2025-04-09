@@ -8,28 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class SuratController extends Controller
 {
-    public function __construct()
-    {
-        // // Gunakan middleware dalam constructor
-        // $this->middleware('auth');
-        // $this->middleware('role:mahasiswa'); // Pastikan ada middleware 'role'
-    }
-
-    // Tampilkan daftar surat mahasiswa yang login
+    // Menampilkan semua surat tanpa filter
     public function index()
     {
-        $surat = Surat::where('mahasiswa_nrp', Auth::user()->nrp)->get();
+        $surat = Surat::all();
         return view('surat.index', compact('surat'));
     }
 
-    // Form pengajuan surat baru
+    // Form untuk membuat surat baru
     public function create()
     {
         $jenis_surat = Surat::jenisSuratList();
         return view('surat.create', compact('jenis_surat'));
     }
 
-    // Simpan surat baru ke database
+    // Simpan surat ke database
     public function store(Request $request)
     {
         $request->validate([
@@ -37,7 +30,7 @@ class SuratController extends Controller
         ]);
 
         Surat::create([
-            'mahasiswa_nrp' => Auth::user()->nrp,
+            'mahasiswa_nrp' => Auth::user()->nrp, // tetap gunakan Auth di sini jika login masih diperlukan
             'jenis_surat' => $request->jenis_surat,
             'status' => 'diajukan',
         ]);
@@ -45,18 +38,21 @@ class SuratController extends Controller
         return redirect()->route('surat.index')->with('success', 'Surat berhasil diajukan.');
     }
 
-    // Tampilkan detail surat
+    // Menampilkan detail surat
     public function show($id)
     {
-        $surat = Surat::where('mahasiswa_nrp', Auth::user()->nrp)->findOrFail($id);
+        $surat = Surat::findOrFail($id);
         return view('surat.show', compact('surat'));
     }
 
-    // Hapus surat (hanya bisa jika status masih "diajukan")
+    // Menghapus surat jika status masih "diajukan"
     public function destroy($id)
     {
-        $surat = Surat::where('mahasiswa_nrp', Auth::user()->nrp)->where('status', 'diajukan')->findOrFail($id);
-        $surat->delete();
+        $surat = Surat::findOrFail($id);
+
+        if ($surat->status === 'diajukan') {
+            $surat->delete();
+        }
 
         return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus.');
     }
