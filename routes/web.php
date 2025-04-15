@@ -10,15 +10,17 @@ use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\SuratController;
+
+Route::get('/kaprodi/surat', [SuratController::class, 'indexKaprodi'])->name('kaprodi.surat');
+Route::post('/kaprodi/surat/approve/{id}', [SuratController::class, 'approveSurat'])->name('kaprodi.approve');
+Route::get('/tu/surat', [SuratController::class, 'indexTU'])->name('tu.surat');
+Route::post('/tu/surat/upload/{id}', [SuratController::class, 'uploadSurat'])->name('tu.upload');
+
 Route::get('/', function () {
     return view('auth.login');
 });
 
-use App\Http\Controllers\SuratController;
-
-Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');
-
-Route::get('/surat/create', [SuratController::class, 'create'])->name('surat.create');
 
 
 

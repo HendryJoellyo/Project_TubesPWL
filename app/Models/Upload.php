@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Approval extends Model
+class Upload extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['surat_id', 'approved_by', 'status', 'catatan'];
+    protected $fillable = ['surat_id', 'uploaded_by', 'file_path'];
 
     public function surat()
     {
@@ -18,6 +18,6 @@ class Approval extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'approved_by');
+        return $this->belongsTo(User::class, 'uploaded_by');
     }
 }

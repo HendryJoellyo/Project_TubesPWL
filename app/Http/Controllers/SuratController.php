@@ -2,58 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Surat;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class SuratController extends Controller
 {
-    // Menampilkan semua surat tanpa filter
-    public function index()
+    public function indexKaprodi()
     {
-        $surat = Surat::all();
-        return view('surat.index', compact('surat'));
+        $userEmail = session('user_email'); // GANTI auth()->user()
+        $kaprodi = User::where('email', $userEmail)->first();
+
+        $surat = Surat::where('status', 'diajukan')->get();
+
+        return view('surat.indexKaprodi', compact('surat'));
     }
 
-    // Form untuk membuat surat baru
-    public function create()
-    {
-        $jenis_surat = Surat::jenisSuratList();
-        return view('surat.create', compact('jenis_surat'));
-    }
-
-    // Simpan surat ke database
-    public function store(Request $request)
-    {
-        $request->validate([
-            'jenis_surat' => 'required|in:keterangan_aktif,pengantar_tugas,keterangan_lulus,laporan_hasil_studi',
-        ]);
-
-        Surat::create([
-            'mahasiswa_nrp' => Auth::user()->nrp, // tetap gunakan Auth di sini jika login masih diperlukan
-            'jenis_surat' => $request->jenis_surat,
-            'status' => 'diajukan',
-        ]);
-
-        return redirect()->route('surat.index')->with('success', 'Surat berhasil diajukan.');
-    }
-
-    // Menampilkan detail surat
-    public function show($id)
+    public function approveSurat($id)
     {
         $surat = Surat::findOrFail($id);
-        return view('surat.show', compact('surat'));
-    }
-
-    // Menghapus surat jika status masih "diajukan"
-    public function destroy($id)
-    {
-        $surat = Surat::findOrFail($id);
-
-        if ($surat->status === 'diajukan') {
-            $surat->delete();
+        
+        // Pastikan hanya surat yang masih dalam status 'diajukan' yang bisa disetujui
+        if ($surat->status == 'diajukan') {
+            $surat->status = 'disetujui_kaprodi';
+            $surat->save();
         }
 
-        return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus.');
+        return redirect()->route('kaprodi.surat');
+    }
+    public function indexTU()
+    {
+        $surat = Surat::where('status', 'disetujui_kaprodi')->get();
+        return view('surat.indexTU', compact('surat'));
+    }
+
+    public function uploadSurat(Request $request, $id)
+    {
+        $surat = Surat::findOrFail($id);
+
+        if ($request->hasFile('file_surat')) {
+            $filePath = $request->file('file_surat')->store('uploads');
+            $surat->file_surat = $filePath;
+            $surat->status = 'disetujui_manager';
+            $surat->save();
+        }
+
+        return redirect()->route('tu.surat');
     }
 }

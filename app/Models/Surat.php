@@ -9,41 +9,30 @@ class Surat extends Model
 {
     use HasFactory;
 
-    protected $table = 'surat'; // Nama tabel dalam database
+    protected $table = 'surat';
 
     protected $fillable = [
         'mahasiswa_nrp',
         'jenis_surat',
         'status',
-        'file_surat',
+        'file_surat'
     ];
 
-    // Relasi ke tabel Mahasiswa
+    // Relasi ke Mahasiswa (jika NRP-nya dari mahasiswa_profiles)
     public function mahasiswa()
     {
         return $this->belongsTo(MahasiswaProfile::class, 'mahasiswa_nrp', 'nrp');
     }
 
-    // Enum Jenis Surat
-    public static function jenisSuratList()
+    // Relasi ke approvals (disetujui/ditolak oleh kaprodi atau tu)
+    public function approvals()
     {
-        return [
-            'keterangan_aktif' => 'Surat Keterangan Aktif',
-            'pengantar_tugas' => 'Surat Pengantar Tugas',
-            'keterangan_lulus' => 'Surat Keterangan Lulus',
-            'laporan_hasil_studi' => 'Surat Laporan Hasil Studi',
-        ];
+        return $this->hasMany(Approval::class);
     }
 
-    // Enum Status Surat
-    public static function statusSuratList()
+    // Relasi ke uploads (TU mengunggah surat)
+    public function uploads()
     {
-        return [
-            'diajukan' => 'Diajukan',
-            'disetujui_kaprodi' => 'Disetujui Kaprodi',
-            'disetujui_manager' => 'Disetujui Manager',
-            'ditolak' => 'Ditolak',
-            'selesai' => 'Selesai',
-        ];
+        return $this->hasMany(Upload::class);
     }
 }

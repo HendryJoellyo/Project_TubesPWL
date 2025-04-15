@@ -41,8 +41,13 @@
     <a href="{{ route('mahasiswa.index') }}" class="nav-link {{ request()->routeIs('mahasiswa.index') ? 'active' : '' }}">
       <p>Data Mahasiswa</p>
   </a>
-  <a href="{{ route('surat.index') }}" class="nav-link {{ request()->routeIs('surat.index') ? 'active' : '' }}">
-    <p>Surat</p>
+  <a href="{{ route('kaprodi.surat') }}" class="nav-link {{ request()->routeIs('kaprodi.surat') ? 'active' : '' }}">
+    <i class="fas fa-envelope"></i>
+    <p>Data Surat Kaprodi</p>
+</a>
+<a href="{{ route('tu.surat') }}" class="nav-link {{ request()->routeIs('tu.surat') ? 'active' : '' }}">
+  <i class="fas fa-paperclip"></i>
+  <p>Data Surat TU</p>
 </a>
   
     <!-- <a href="{{ route('prodi.index') }}" class="nav-link {{ request()->routeIs('prodi.index') ? 'active' : '' }}">
