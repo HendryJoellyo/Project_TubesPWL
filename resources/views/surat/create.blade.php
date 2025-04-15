@@ -14,6 +14,13 @@
                     <option value="{{ $key }}">{{ $value }}</option>
                 @endforeach
             </select>
+            <div class="form-group">
+                <label for="Surat">Surat</label>
+                <input type="file" name="Surat" id="Surat" accept="application/pdf" class="form-control">
+                @error('Surat')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
         </div>
 
         <button type="submit" class="btn btn-success">Ajukan</button>

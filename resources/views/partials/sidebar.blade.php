@@ -41,6 +41,9 @@
     <a href="{{ route('mahasiswa.index') }}" class="nav-link {{ request()->routeIs('mahasiswa.index') ? 'active' : '' }}">
       <p>Data Mahasiswa</p>
   </a>
+  <a href="{{ route('surat.index') }}" class="nav-link {{ request()->routeIs('surat.index') ? 'active' : '' }}">
+    <p>Surat</p>
+</a>
   
     <!-- <a href="{{ route('prodi.index') }}" class="nav-link {{ request()->routeIs('prodi.index') ? 'active' : '' }}">
       <p>Data Tata Usaha</p>

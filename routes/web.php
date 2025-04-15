@@ -14,6 +14,12 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+use App\Http\Controllers\SuratController;
+
+Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');
+
+Route::get('/surat/create', [SuratController::class, 'create'])->name('surat.create');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -83,29 +89,10 @@ Route::put('/Mahasiswa/{nrp}', [MahasiswaProfileController::class, 'update'])->n
 Route::delete('/Mahasiswa/{nrp}', [MahasiswaProfileController::class, 'destroy'])->name('mahasiswa.destroy');
 
 
-use App\Http\Controllers\SuratController;
-
-Route::resource('surat', SuratController::class);
-
-// routes/web.php
-
-Route::middleware(['auth', 'mahasiswa'])->group(function () {
-    Route::get('/dashboard-mahasiswa', [MahasiswaProfileController::class, 'index'])->name('dashboard.mahasiswa');
-});
-
-Route::middleware(['auth', 'ketua_prodi'])->group(function () {
-    Route::resource('approvals', App\Http\Controllers\ApprovalController::class)->only(['index', 'show', 'update']);
-});
 
 
-use App\Http\Controllers\ApprovalController;
 
-Route::middleware(['auth', 'role:ketua_prodi'])->group(function () {
-    Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
-    Route::get('/approval/{id}', [ApprovalController::class, 'show'])->name('approval.show');
-    Route::post('/approval/{id}/approve', [ApprovalController::class, 'approve'])->name('approval.approve');
-    Route::post('/approval/{id}/reject', [ApprovalController::class, 'reject'])->name('approval.reject');
-});
+
 
 
 
