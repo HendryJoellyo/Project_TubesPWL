@@ -14,7 +14,11 @@ class Roles extends Model
     
     public function  Users(): HasOne
 {
+<<<<<<< HEAD
+    return $this->hasOne(User::class, 'id');
+=======
     return $this->hasOne(Users::class, 'id');
+>>>>>>> ac7c495be41d54213b953494ba0466e46c144335
 }
 
 }

@@ -21,4 +21,17 @@ public function surat()
     return $this->belongsTo(Surat::class);
 }
 
+<<<<<<< HEAD
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+public function upload()
+{
+    return $this->hasOne(\App\Models\Upload::class, 'pengajuan_surat_id');
+}
+
+=======
+>>>>>>> ac7c495be41d54213b953494ba0466e46c144335
 }

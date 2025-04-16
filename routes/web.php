@@ -8,6 +8,14 @@ use App\Http\Controllers\ManagerProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MahasiswaProfileController;
 use App\Http\Controllers\AuthController;
+<<<<<<< HEAD
+use App\Http\Controllers\Mahasiswa\DashboardController;
+use App\Http\Controllers\Mahasiswa\PengajuanSuratController;
+use App\Http\Controllers\Kaprodi\KaprodiDashboardController;
+use App\Http\Controllers\Kaprodi\PersetujuanSuratController;
+use App\Http\Controllers\TataUsaha\TataUsahaDashboardController;
+=======
+>>>>>>> ac7c495be41d54213b953494ba0466e46c144335
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -89,14 +97,27 @@ Route::middleware(['role:1'])->group(function() {
 });
 
 
+<<<<<<< HEAD
+
+=======
 use App\Http\Controllers\Mahasiswa\DashboardController;
 use App\Http\Controllers\Mahasiswa\PengajuanSuratController;
+>>>>>>> ac7c495be41d54213b953494ba0466e46c144335
 
 // Route untuk Dashboard Mahasiswa
 Route::get('/mahasiswa/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('mahasiswa.dashboard'); // Nama route harus sesuai dengan yang digunakan di view
 
+<<<<<<< HEAD
+
+
+    Route::get('/kaprodi', [KaprodiDashboardController::class, 'index'])
+        ->middleware(['auth'])
+        ->name('kaprodi.index');
+
+=======
+>>>>>>> ac7c495be41d54213b953494ba0466e46c144335
 // Route untuk Pengajuan Surat
 Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(function() {
     Route::get('/pengajuan-surat', [PengajuanSuratController::class, 'index'])->name('pengajuan_surat.index');
@@ -105,5 +126,27 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
     Route::delete('/pengajuan-surat/{id}', [PengajuanSuratController::class, 'destroy'])->name('pengajuan_surat.destroy');
 });
 
+<<<<<<< HEAD
+Route::middleware(['auth', 'role:kaprodi'])->prefix('kaprodi')->name('kaprodi.')->group(function () {
+    // Tampilkan daftar pengajuan surat
+    Route::get('/pengajuan-surat', [PengajuanSuratController::class, 'index'])->name('pengajuan_surat.index');
+
+    // Aksi menyetujui dan menolak
+    Route::post('/pengajuan-surat/{id}/setujui', [PersetujuanSuratController::class, 'setujui'])->name('pengajuan_surat.setujui');
+    Route::post('/pengajuan-surat/{id}/tolak', [PersetujuanSuratController::class, 'tolak'])->name('pengajuan_surat.tolak');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/tata_usaha/dashboard', [TataUsahaDashboardController::class, 'index'])->name('tata_usaha.dashboard');
+});
+use App\Http\Controllers\TataUsaha\UploadSuratController;
+
+Route::middleware(['auth', 'role:tata_usaha'])->prefix('tata-usaha')->name('tata_usaha.')->group(function () {
+    Route::get('/upload-surat', [UploadSuratController::class, 'index'])->name('upload_surat.index');
+    Route::post('/upload-surat/{id}', [UploadSuratController::class, 'store'])->name('upload_surat.store');
+});
+
+=======
+>>>>>>> ac7c495be41d54213b953494ba0466e46c144335
 
 require __DIR__.'/auth.php';

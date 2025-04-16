@@ -1,11 +1,9 @@
-{{-- resources/views/mahasiswa/pengajuan_surat/index.blade.php --}}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pengajuan Surat</title>
+  <title>Upload Surat - Tata Usaha</title>
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
   <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.min.css') }}">
 </head>
@@ -18,13 +16,16 @@
   <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
-        <h1 class="m-0">Daftar Pengajuan Surat</h1>
+        <h1 class="m-0">Upload Surat yang Sudah Disetujui</h1>
       </div>
     </div>
 
     <div class="content">
       <div class="container-fluid">
-        <a href="{{ route('mahasiswa.pengajuan_surat.create') }}" class="btn btn-primary mb-3">Tambah Pengajuan</a>
+
+        @if(session('success'))
+          <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
         <div class="card">
           <div class="card-body">
@@ -32,59 +33,42 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Nama Mahasiswa</th>
                   <th>Jenis Surat</th>
+                  <th>Status</th>
                   <th>File</th>
-                  <th>Status</th> {{-- Kolom status baru --}}
-                  <th>Aksi</th>
+                  <th>Upload Balasan</th>
                 </tr>
               </thead>
               <tbody>
                 @forelse ($pengajuanSurat as $surat)
                   <tr>
                     <td>{{ $surat->id }}</td>
-                    <td>{{ ucfirst(str_replace('_', ' ', $surat->surat->jenis_surat)) }}</td>
+                    <td>{{ $surat->user->name ?? '-' }}</td>
+                    <td>{{ ucfirst(str_replace('_', ' ', $surat->surat->jenis_surat ?? '')) }}</td>
+                    <td><span class="badge badge-success">Diterima</span></td>
                     <td>
-<<<<<<< HEAD
-  @php
-    $upload = $uploads[$surat->surat_id] ?? null;
-  @endphp
-
-  @if ($upload && $upload->file_balasan)
-    <a href="{{ asset('storage/' . $upload->file_balasan) }}" target="_blank">Download Balasan</a>
-  @else
-    <span class="badge badge-warning">Dalam Proses</span>
-  @endif
-</td>
-
-
-=======
-                      @if ($surat->file_path)
-                        <a href="{{ asset('storage/' . $surat->file_path) }}" target="_blank">Lihat File</a>
+                      @if ($surat->file_balasan)
+                        <a href="{{ asset('storage/' . $surat->file_balasan) }}" target="_blank">Lihat File</a>
                       @else
-                        <span class="badge badge-warning">Dalam Proses</span>
-                      @endif
-                    </td>
->>>>>>> ac7c495be41d54213b953494ba0466e46c144335
-                    <td>
-                      @if ($surat->status == 'diterima')
-                        <span class="badge badge-success">Diterima</span>
-                      @elseif ($surat->status == 'ditolak')
-                        <span class="badge badge-danger">Ditolak</span>
-                      @else
-                        <span class="badge badge-warning">Menunggu</span>
+                        <span class="text-warning">Belum diupload</span>
                       @endif
                     </td>
                     <td>
-                      <form action="{{ route('mahasiswa.pengajuan_surat.destroy', $surat->id) }}" method="POST">
+                      @if (!$surat->file_balasan)
+                      <form action="{{ route('tata_usaha.upload_surat.store', $surat->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?')">Hapus</button>
+                        <input type="file" name="file_balasan" class="form-control mb-2" required>
+                        <button class="btn btn-primary btn-sm">Upload</button>
                       </form>
+                      @else
+                        <span class="text-muted">Sudah diupload</span>
+                      @endif
                     </td>
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="5" class="text-center">Tidak ada pengajuan surat.</td>
+                    <td colspan="6" class="text-center">Tidak ada surat yang disetujui.</td>
                   </tr>
                 @endforelse
               </tbody>
